@@ -51,13 +51,15 @@ action :create do
     nvm_dir = nvm_dir_base + "/.nvm"
   end
 
-  directory nvm_dir do
+  directory "#{nvm_dir} for #{new_resource.version}" do
+    path nvm_dir
     user chef_nvm_user
     group chef_nvm_group
     action :create
   end
 
-  git nvm_dir do
+  git "#{nvm_dir} for #{new_resource.version}" do
+    destination nvm_dir
     user chef_nvm_user
     group chef_nvm_group
     repository node['nvm']['repository']
@@ -68,7 +70,8 @@ action :create do
     not_if { ::File.exists?(nvm_dir + "/.git") }
   end
 
-  template '/etc/profile.d/nvm.sh' do
+  template "/etc/profile.d/nvm.sh for #{new_resource.version}" do
+    path '/etc/profile.d/nvm.sh'
     source 'nvm.sh.erb'
     mode 0755
     cookbook 'nvm'
