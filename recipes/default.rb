@@ -33,9 +33,7 @@ when 'debian'
   end
 
   if node['nvm']['install_deps_to_build_from_source']
-    package 'build-essential' do
-      action :install
-    end
+    build_essential
 
     package 'libssl-dev' do
       action :install
@@ -44,7 +42,7 @@ when 'debian'
 
 when 'rhel'
   if node['nvm']['install_deps_to_build_from_source']
-    include_recipe 'build-essential'
+    build_essential
   end
 
 else
